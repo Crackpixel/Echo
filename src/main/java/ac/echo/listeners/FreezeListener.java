@@ -11,6 +11,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 
 public class FreezeListener implements Listener {
 
@@ -62,6 +63,15 @@ public class FreezeListener implements Listener {
             if (profile.isFrozen()) {
                 event.setCancelled(true);
             }
+        }
+    }
+
+    @EventHandler
+    public void onMove(PlayerMoveEvent event) {
+        Profile profile = Echo.INSTANCE.getProfileManager().getProfile(event.getPlayer().getUniqueId());
+        if (profile.isFrozen()) {
+            event.setCancelled(true);
+            event.getPlayer().teleport(event.getFrom());
         }
     }
 
